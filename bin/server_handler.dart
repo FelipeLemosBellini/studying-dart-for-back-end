@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import 'login_model.dart';
+
 class MyServerHandler {
   Handler get handler {
     final router = Router();
@@ -36,14 +38,13 @@ class MyServerHandler {
 
     router.post('/login', (Request request) async {
       var body = await request.readAsString();
+      Map<String, dynamic> jsonMap = jsonDecode(body);
+      LoginModel login = LoginModel.fromMap(jsonMap);
 
-      print(request.url);
-      print(request.method);
-      print(request.handlerPath);
-      print(request.requestedUri);
-      print(request.headers);
-      print(jsonDecode(body));
-      return Response(200, body: json.decoder);
+      if (login.email == "email" && login.password == "password")
+        return Response(200);
+      else
+        return Response.badRequest(body: 'Invalid login');
     });
 
     return router;
