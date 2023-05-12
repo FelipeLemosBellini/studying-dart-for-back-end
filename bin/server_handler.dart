@@ -55,6 +55,19 @@ class MyServerHandler {
         return Response.badRequest(body: 'Invalid login');
     });
 
+    //outra opção sem o model
+    router.post('/other/login', (Request request) async {
+      var body = await request.readAsString();
+      Map<String, dynamic> jsonMap = jsonDecode(body);
+      var email = jsonMap['email'];
+      var password = jsonMap['password'];
+
+      if (email == "email" && password == "password")
+        return Response(200);
+      else
+        return Response.badRequest(body: 'Invalid login');
+    });
+
     return router;
   }
 }
