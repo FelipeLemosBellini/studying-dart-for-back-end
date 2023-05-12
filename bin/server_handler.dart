@@ -36,6 +36,14 @@ class MyServerHandler {
       return Response.badRequest(body: "Bad Request 0_0");
     });
 
+
+    //passar no body -> raw -> json
+    //
+    // {
+    //     "email": "email",
+    //     "password": "password"
+    // }
+
     router.post('/login', (Request request) async {
       var body = await request.readAsString();
       Map<String, dynamic> jsonMap = jsonDecode(body);
