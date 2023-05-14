@@ -70,13 +70,13 @@ class MyServerHandler {
       }
     });
 
-    //retornando um json
+    //return a json
     router.post('/login/with/token', (Request request) async {
       var body = await request.readAsString();
       Map<String, dynamic> jsonMap = jsonDecode(body);
       LoginModel login = LoginModel.fromMap(jsonMap);
-      ResponseSuccessLoginModel successLoginModel = ResponseSuccessLoginModel(token: 'token', username: 'Felipe');
       if (login.email == "email" && login.password == "password") {
+        ResponseSuccessLoginModel successLoginModel = ResponseSuccessLoginModel(token: 'token123', username: 'Felipe');
         return Response(200, body: successLoginModel.toJson(), headers: {'content-type': 'application/json'});
       } else {
         return Response.badRequest(body: 'Invalid login');
