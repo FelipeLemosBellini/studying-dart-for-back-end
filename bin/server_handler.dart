@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import 'login_model.dart';
+import 'models/login_model.dart';
+import 'models/response_success_login_model.dart';
 
 class MyServerHandler {
   Handler get handler {
@@ -26,16 +27,16 @@ class MyServerHandler {
       String? name = request.url.queryParameters['name'];
       String? lastName = request.url.queryParameters['last_name'];
 
-      if (name != null && lastName != null && name.isNotEmpty && lastName.isNotEmpty)
+      if (name != null && lastName != null && name.isNotEmpty && lastName.isNotEmpty) {
         return Response.ok('Your name is $name $lastName');
-      else
+      } else {
         return Response.badRequest(body: "Invalid request");
+      }
     });
 
     router.get('/bad/request', (Request request) {
       return Response.badRequest(body: "Bad Request 0_0");
     });
-
 
     //passar no body -> raw -> json
     //
@@ -62,10 +63,24 @@ class MyServerHandler {
       var email = jsonMap['email'];
       var password = jsonMap['password'];
 
-      if (email == "email" && password == "password")
+      if (email == "email" && password == "password") {
         return Response(200);
-      else
+      } else {
         return Response.badRequest(body: 'Invalid login');
+      }
+    });
+
+    //retornando um json
+    router.post('/login/with/token', (Request request) async {
+      var body = await request.readAsString();
+      Map<String, dynamic> jsonMap = jsonDecode(body);
+      LoginModel login = LoginModel.fromMap(jsonMap);
+      ResponseSuccessLoginModel successLoginModel = ResponseSuccessLoginModel(token: 'token', username: 'Felipe');
+      if (login.email == "email" && login.password == "password") {
+        return Response(200, body: successLoginModel.toJson(), headers: {'content-type': 'application/json'});
+      } else {
+        return Response.badRequest(body: 'Invalid login');
+      }
     });
 
     return router;

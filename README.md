@@ -1,4 +1,3 @@
 Estou estudando dart para back-end 
 
-
-Tools • Dart 2.19.2 • DevTools 2.20.1
+Dart SDK version: 3.0.0 (stable) (Thu May 4 01:11:00 2023 -0700) on "windows_x64"

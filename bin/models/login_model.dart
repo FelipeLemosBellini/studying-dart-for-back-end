@@ -16,10 +16,8 @@ class LoginModel {
     );
   }
 
-  @override
   String toJson() => json.encode(toMap());
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'email': email,
